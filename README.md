@@ -1,9 +1,9 @@
+![image alt](https://github.com/Daijek/UK_Accident_Predictive_Analysis_2020/blob/main/images/downloaded-image.png?raw=true)
+
 # 🚦 Predictive Analysis of UK Road Traffic Accidents
 
 ## 🔍 Comprehensive Data Pipeline for Accident Severity Prediction
 This project implements a complete data science pipeline for analyzing UK road accident data, extracting insights, and building predictive models for accident severity. The system processes raw SQLite data through cleaning, feature engineering, association mining, clustering, and machine learning to predict fatal injuries with **over 80% accuracy**.
-
-![Data Pipeline](https://via.placeholder.com/800x400?text=Data+Extraction+-%3E+Cleaning+-%3E+Analysis+-%3E+Modeling)
 
 ## 🧰 Project Components
 
@@ -30,13 +30,26 @@ This project implements a complete data science pipeline for analyzing UK road a
 
 ## ⚙️ Technical Implementation
 
-### 🧩 Core Technologies & Key Features
+### 🧩Key Features
+- **Core Technologies**;
+```
+graph LR
+A[SQLite] --> B[Pandas]
+B --> C[Scikit-learn]
+C --> D[MLxtend]
+D --> E[Folium]
+E --> F[Matplotlib]
+```
 - **Custom Imputation Classes**:
   - KDE-based continuous variable handling
   - Probability-based categorical imputation
   - Location-aware missing value filling
 - **Association Rule Mining**:
-  - Apriori algorithm implementation
+  - Apriori algorithm implementation example
+    ```
+    rules = association_rules(freq_item_sets, metric="lift", min_threshold=0.5)
+    ```
+    
 - **Geospatial Clustering**:
   - KMeans/KMedoids with elbow method optimization
   - Interactive Folium maps for cluster visualization
@@ -49,13 +62,17 @@ This project implements a complete data science pipeline for analyzing UK road a
 ## 📊 Insights Discovered
 
 ### ⏰ Temporal Patterns
-![Temporal Patterns](https://via.placeholder.com/400x300?text=Peak+Hours+8-9am+and+3-6pm)
+![Temporal Patterns](https://github.com/Daijek/UK_Accident_Predictive_Analysis_2020/blob/main/images/peak_hours.png?raw=true)
 - Motorbike accidents peak on weekends (2-5pm)
 - Pedestrian incidents cluster in evening hours (6-9pm)
 - Friday has highest accident volume overall
 
 ### 🗺️ Regional Hotspots
-![Regional Hotspots](https://via.placeholder.com/400x300?text=Regional+Hotspot+Visualization)
+Example 
+```
+humberside.plot_clusters_on_map(5, humberside_kmeans_cluster[0])
+```
+![Regional Hotspots](https://github.com/Daijek/UK_Accident_Predictive_Analysis_2020/blob/main/images/humberside%20accident%20clusters.png?raw=true)
 
 ### 📈 Key Predictors of Severity
 1. Speed limit (30mph zones)
@@ -66,10 +83,37 @@ This project implements a complete data science pipeline for analyzing UK road a
 
 ## 🛠️ Setup & Execution
 ### Prerequisites
-*Details to be added*
+```
+pip install pandas numpy scikit-learn mlxtend folium matplotlib seaborn
+```
+### Execution workflow
+```
+sequenceDiagram
+    participant S as SQLite DB
+    participant P as Python
+    participant M as Models
+    
+    S->>P: Extract via Extract_DB_info
+    P->>P: Clean/transform data
+    P->>P: Temporal analysis
+    P->>P: Association mining
+    P->>P: Regional clustering
+    P->>P: Outlier detection
+    P->>M: Train classifiers
+    M-->>P: Evaluation metrics
+```
 
 ### Running Analysis
-*Details to be added*
+```
+# Instantiate accident analysis pipeline
+accident_model = model_classification(x_balanced, y_balanced)
+
+# Generate classification reports
+accident_model.get_classification_report()
+
+# Visualize model performance
+accident_model.visualize_model_results()
+```
 
 ## 🚧 Challenges Overcome
 | Challenge                 | Solution                                  |
@@ -82,6 +126,10 @@ This project implements a complete data science pipeline for analyzing UK road a
 
 ## 📈 Future Enhancements
 - **Real-time Prediction API**:
+  e.g.
+  ```
+  app.post("/predict-severity", input_schema=AccidentFeatures)
+  ```
   - FastAPI implementation
   - Cloud deployment (AWS/GCP)
 - **Weather Data Integration**:
