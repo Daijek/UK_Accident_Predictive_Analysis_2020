@@ -114,18 +114,8 @@ pip install pandas numpy scikit-learn mlxtend folium matplotlib seaborn
 ### Execution workflow
 
 sequenceDiagram
-    participant S as SQLite DB
-    participant P as Python
-    participant M as Models
-    
-    S->>P: Extract via Extract_DB_info
-    P->>P: Clean/transform data
-    P->>P: Temporal analysis
-    P->>P: Association mining
-    P->>P: Regional clustering
-    P->>P: Outlier detection
-    P->>M: Train classifiers
-    M-->>P: Evaluation metrics
+
+![sequence diagram](https://github.com/Daijek/UK_Accident_Predictive_Analysis_2020/blob/main/images/accident%20data%20flow%20diagram.png?raw=true)
 
 
 ### Running Analysis
