@@ -1,9 +1,9 @@
-![image alt](https://github.com/Daijek/UK_Accident_Predictive_Analysis_2020/blob/main/images/downloaded-image.png?raw=true)
-
 # 🚦 Predictive Analysis of UK Road Traffic Accidents
 
 ## 🔍 Comprehensive Data Pipeline for Accident Severity Prediction
 This project implements a complete data science pipeline for analyzing UK road accident data, extracting insights, and building predictive models for accident severity. The system processes raw SQLite data through cleaning, feature engineering, association mining, clustering, and machine learning to predict fatal injuries with **over 80% accuracy**.
+
+![image alt](https://github.com/Daijek/UK_Accident_Predictive_Analysis_2020/blob/main/images/downloaded-image.png?raw=true)
 
 ## 🧰 Project Components
 
@@ -32,14 +32,14 @@ This project implements a complete data science pipeline for analyzing UK road a
 
 ### 🧩Key Features
 - **Core Technologies**;
-```
+
 graph LR
 A[SQLite] --> B[Pandas]
 B --> C[Scikit-learn]
 C --> D[MLxtend]
 D --> E[Folium]
 E --> F[Matplotlib]
-```
+
 - **Custom Imputation Classes**:
   - KDE-based continuous variable handling
   - Probability-based categorical imputation
@@ -53,6 +53,22 @@ E --> F[Matplotlib]
 - **Geospatial Clustering**:
   - KMeans/KMedoids with elbow method optimization
   - Interactive Folium maps for cluster visualization
+
+- **Comprehensive Outlier Detection**:
+  - **Custom OutlierDetection Class**:
+    ```python
+    class outlier_detection:
+        def get_grubbs_test_outliers(self, column, alpha): ...
+        def get_IQR_outliers(self, column, multiple): ...
+        def get_isolation_forest_outliers(self, columns, cont): ...
+        def plot_location_outlier_on_map(self, lon, lat, cont): ...
+    ```
+  - Multimodal detection approach:
+    - Grubbs test (α=0.01/0.05) for statistical outliers
+    - IQR method (1.5x/3x multipliers)
+    - Isolation Forest for multivariate spatial outliers
+  - Visual verification via Folium mapping
+    
 - **Stacked Modeling**:
   - Logistic regression meta-learner combining:
     - Random Forest
@@ -81,13 +97,22 @@ humberside.plot_clusters_on_map(5, humberside_kmeans_cluster[0])
 4. Number of casualties
 5. Road surface conditions
 
+### 🎯 Outlier Validation
+![Location Outliers](https://github.com/Daijek/UK_Accident_Predictive_Analysis_2020/blob/main/images/outlier%20map.png?raw=true)
+- **Key Findings**:
+  - Extreme values in vehicle count (13 vehicles) and casualties (41) were verified as legitimate occurrences
+  - Spatial outliers confirmed to be within UK boundaries via Folium mapping
+  - Age-of-vehicle outliers (96 years) retained after model validation tests
+- **Decision Rationale**:
+  > "Outliers represent real-world edge cases crucial for severity prediction in rare but critical scenarios."
+
 ## 🛠️ Setup & Execution
 ### Prerequisites
 ```
 pip install pandas numpy scikit-learn mlxtend folium matplotlib seaborn
 ```
 ### Execution workflow
-```
+
 sequenceDiagram
     participant S as SQLite DB
     participant P as Python
@@ -101,7 +126,7 @@ sequenceDiagram
     P->>P: Outlier detection
     P->>M: Train classifiers
     M-->>P: Evaluation metrics
-```
+
 
 ### Running Analysis
 ```
@@ -123,6 +148,8 @@ accident_model.visualize_model_results()
 | High Cardinality Features | Probability-based imputation              |
 | Geospatial Clustering     | Elbow method for optimal cluster selection |
 | Model Stacking            | Logistic regression meta-learner          |
+| Outlier Validation    | Multimodal detection + spatial mapping verification |
+| Missing Location Data     | Custom imputation using road attributes   |
 
 ## 📈 Future Enhancements
 - **Real-time Prediction API**:
@@ -140,6 +167,13 @@ accident_model.visualize_model_results()
 - **Deep Learning Models**:
   - Temporal CNN for accident forecasting
   - GNN for regional risk propagation
+
+- **Real-time Outlier Monitoring**:
+  ```
+  # Continuous outlier detection pipeline
+  outlier_monitor = RealTimeOutlierDetection()
+  outlier_monitor.add_streaming_check("vehicle_count", method="IQR")
+  ```
 
 ## ⚠️ Ethical Considerations
 All data comes from the UK Government's publicly available Road Safety Open Dataset. The project adheres to OGL (Open Government Licence) requirements:
